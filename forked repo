@@ -1,0 +1,166 @@
+import random
+import math
+
+class Car:
+  """A class to represent a car."""
+
+  def __init__(self, make, model, year):
+    """Initializes a new Car object.
+
+    Args:
+      make: The make of the car.
+      model: The model of the car.
+      year: The year the car was made.
+    """
+
+    self.make = make
+    self.model = model
+    self.year = year
+
+    # The car's current speed.
+    self.speed = 0
+
+    # The car's maximum speed.
+    self.max_speed = 100
+
+    # The car's current gear.
+    self.gear = 1
+
+  def accelerate(self):
+    """Accelerates the car.
+
+    The car's speed will increase by 10 km/h for each gear.
+    """
+
+    if self.gear < 6:
+      self.gear += 1
+
+    self.speed = self.gear * 10
+
+  def decelerate(self):
+    """Decelerates the car.
+
+    The car's speed will decrease by 10 km/h for each gear.
+    """
+
+    if self.gear > 1:
+      self.gear -= 1
+
+    self.speed = self.gear * 10
+
+  def brake(self):
+    """Brings the car to a stop."""
+
+    self.speed = 0
+
+  def turn_left(self):
+    """Turns the car left."""
+
+    pass
+
+  def turn_right(self):
+    """Turns the car right."""
+
+    pass
+
+class TrafficLight:
+  """A class to represent a traffic light."""
+
+  def __init__(self, color):
+    """Initializes a new TrafficLight object.
+
+    Args:
+      color: The color of the traffic light.
+    """
+
+    self.color = color
+
+  def is_green(self):
+    """Returns True if the traffic light is green, False otherwise."""
+
+    return self.color == "green"
+
+class Road:
+  """A class to represent a road."""
+
+  def __init__(self, length, lanes):
+    """Initializes a new Road object.
+
+    Args:
+      length: The length of the road in kilometers.
+      lanes: The number of lanes on the road.
+    """
+
+    self.length = length
+    self.lanes = lanes
+
+    # A list of cars on the road.
+    self.cars = []
+
+  def add_car(self, car):
+    """Adds a car to the road.
+
+    Args:
+      car: The car to add to the road.
+    """
+
+    self.cars.append(car)
+
+  def remove_car(self, car):
+    """Removes a car from the road.
+
+    Args:
+      car: The car to remove from the road.
+    """
+
+    self.cars.remove(car)
+
+  def move_cars(self):
+    """Moves all of the cars on the road.
+
+    Each car will move forward by its speed.
+    """
+
+    for car in self.cars:
+      car.accelerate()
+
+      # If the car is at the end of the road, remove it from the road.
+      if car.speed >= self.length:
+        self.remove_car(car)
+
+class Simulation:
+  """A class to simulate traffic."""
+
+  def __init__(self, road):
+    """Initializes a new Simulation object.
+
+    Args:
+      road: The road to simulate traffic on.
+    """
+
+    self.road = road
+
+  def run(self):
+    """Runs the simulation.
+
+    The simulation will run until there are no more cars on the road.
+    """
+
+    while self.road.cars:
+      self.road.move_cars()
+
+if __name__ == "__main__":
+  # Create a new road.
+  road = Road(100, 3)
+
+  # Create a new car.
+  car = Car("Toyota", "Camry", 2023)
+
+  # Add the car to the road.
+  road.add_car(car)
+
+  # Create a new simulation.
+  simulation = Simulation(road)
+
+  # Run the simulation.
+  simulation.run()
